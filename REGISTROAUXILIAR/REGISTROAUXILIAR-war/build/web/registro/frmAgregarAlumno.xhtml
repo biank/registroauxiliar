@@ -1,0 +1,57 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://java.sun.com/jsf/html">
+    <h:form id="frmAgregarAlumno">
+        <table>
+            <tbody>
+                <tr><td>
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                Alumno
+                            </td>
+                            <td>
+                                <p:inputText id="nombreAlumno" size="30" maxlength="100" value="#{alumnoController.nombreCompletos}" />
+                        </td>
+                        <td>
+                            <p:commandButton icon="ui-icon-search" actionListener="#{alumnoController.filtrar()}" update="frmAgregarAlumno:grdListadoAlumnos"/>
+                        </td>
+                        </tr>                                
+                    </table>                 
+                </td></tr>
+                <tr><td >
+                        <p:dataTable id="grdListadoAlumnos" value="#{alumnoController.lstalumno}" var="item" rowKey="#{item.NIdAlumno}"
+                                     selectionMode="single" selection="#{alumnoController.selectedAlumno}" scrollable="true" scrollHeight="200"
+                                     emptyMessage="Filtro sin resultados. Ingrese un filtro para listar clientes." style="width: 310px">
+                        <p:column width="65" >
+                            <f:facet name="header">
+                                <h:outputText value="Codigo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.NCodigo}"/>
+                        </p:column>
+                        <p:column width="130" >
+                            <f:facet name="header">
+                                <h:outputText value="Nombres"/>
+                            </f:facet>
+                            <h:outputText value="#{item.NIdPersona.SNombresCompletos}"/>
+                        </p:column > 
+                        <p:column width="30" style=""> 
+                            <p:commandButton icon="ui-icon-check" actionListener="#{matriculaController.verDetallesAlumno(item)}" oncomplete="buscaCliente.hide()" style="width:20px; height: 20px;"/>                            
+                        </p:column>                
+                    </p:dataTable>
+                </td></tr>
+                <tr><td style="width: 225px">
+                    <p:toolbar style="padding: 4px;"  >
+                        <p:toolbarGroup align="left">
+                            <p:commandButton id="cancelarListaCliente" value="Cerrar"  onclick="manteAlumno.hide()" />                            
+                        </p:toolbarGroup>
+                    </p:toolbar>                    
+                </td></tr>
+            </tbody>
+        </table>
+    </h:form>
+    
+</ui:composition>

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+        <div id="divHeader">
+            <div id="divHeader_Top">
+                <div id="divHeader_Header">
+                    <div class="header" style="height: 140px; ">
+                        <div class="logo">
+                            <a href="${facesContext.externalContext.requestContextPath}/index.jsp">
+                                <img alt="Registro Auxiliar" border="0"  src="${facesContext.externalContext.requestContextPath}/images/RegistroAuxiliarHeader.png" />
+                            </a>
+                        </div>
+                        <div class="welcomesignin_wrapper">
+                            <span class="profile">
+                                <a href="${facesContext.externalContext.requestContextPath}/index.jsp">
+                                    <img border="0"  src="${facesContext.externalContext.requestContextPath}/images/logofisi.png"/>
+                                </a>
+                            </span>
+                        </div>
+                        <div class="txtUsername">
+                            <ui:fragment rendered="#{loginController.logueadoAlu || loginController.logueadoDoc}">                                  
+                                <h:form >                                                                        
+                                    <span style="font-weight: bold; margin-right: auto" > Bienvenido : </span>                                      
+                                    <span> #{loginController.usuarioNombre} &nbsp;&nbsp;&nbsp;</span>
+                                    <f:verbatim>[</f:verbatim>                                
+                                    <p:commandLink value="Cerrar sesión" action="#{loginController.cerrarSesion}"  
+                                                   oncomplete="fn_Redirecciona('#{facesContext.externalContext.requestContextPath}');"/>
+                                    <f:verbatim>]</f:verbatim>
+                                </h:form>
+                            </ui:fragment>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+</ui:composition>

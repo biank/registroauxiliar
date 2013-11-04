@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"      
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>
+            <h:outputText value="Registro Auxiliar :: FISI - Login" />
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/WEB-INF/facelets/templates/mainLayout.xhtml">
+            <ui:define name="menuPrincipal">
+                <ui:include src="/seguridad/frmBarraInicial.xhtml"/>           
+            </ui:define>                        
+            <ui:define name="content">
+                <div id="divContenido">
+                    <div id="divContenido_Top">
+                        <link href="${facesContext.externalContext.requestContextPath}/resources/css/jquery.mSimpleSlidebox.css" rel="stylesheet" type="text/css" />
+                        <script src="${facesContext.externalContext.requestContextPath}/resources/js/jquery.min.js"></script>
+                        <script src="${facesContext.externalContext.requestContextPath}/resources/js/jquery-ui.min.js"></script>
+                        <script src="${facesContext.externalContext.requestContextPath}/resources/js/jquery.mSimpleSlidebox.js"></script>
+                        <script type="text/javascript" src="${facesContext.externalContext.requestContextPath}/resources/js/jquery.fancybox-1.2.6.js"></script>
+                        <script type="text/javascript" src="${facesContext.externalContext.requestContextPath}/resources/js/jquery.jqDock.js"></script>
+                        <script type="text/javascript">
+                            $(document).ready(function(){
+                                $("#slidebox_1").mSlidebox({
+                                    controlsPosition:{
+                                        buttonsPosition:"outside",
+                                        thumbsPosition:"outside"
+                                    }
+                                });
+                            });
+                        </script>
+                        <div>
+                            <div class="banner_wrapper">
+                                <div id="slidebox_1" class="slidebox">
+                                    <ul>
+                                        <li style="background:url('images/banner_1.jpg') no-repeat;"></li>
+                                        <li style="background:url('images/banner_2.jpg') no-repeat;"></li>
+                                        <li style="background:url('images/banner_3.jpg') no-repeat;"></li>
+                                        <li style="background:url('images/banner_4.jpg') no-repeat;"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <f:view>
+                    <p:panel id="pnl" style="border-width: 0px;">
+                        <div id="divLogin" >
+                            <table style="left:inherit; width: 100%;" >
+                                <tr>
+                                    <td style="width: 80%;" >
+                                        <ui:include src="frmContenido.xhtml"/>
+                                    </td>
+                                    <td style="width: 20%;" >
+                                        <p:panel header="Inicio de Sesión">
+                                            <ui:include src="frmLoginCuadro.xhtml"/>                                                            
+                                        </p:panel>
+                                    </td>
+                                </tr>
+                            </table>                       
+                        </div>
+                    </p:panel>
+                    <p:blockUI block="pnl" trigger=":frmLoginCuadro:loginButton" >  
+                            Espere mientras carga el sistema<br /> 
+                            <p:graphicImage value="/images/loading.gif" style="width: 65px; height: 50px;"/> 
+                        </p:blockUI>
+                </f:view>
+                    </div>
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>

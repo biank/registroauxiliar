@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"    
+      
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:body>
+        <ui:composition template="/WEB-INF/facelets/templates/mainLayout.xhtml">
+            <ui:define name="menuPrincipal">
+                <ui:include src="/seguridad/frmMenuDocente.xhtml"/>           
+            </ui:define>
+            <ui:define name="content" >
+                <h:form id="frmRegistroAlumnos"  >                    
+                    <h1 id="breadCrumb">&nbsp;&nbsp;&nbsp;&nbsp;<h:outputText value=" REGISTRO DE ALUMNOS"/></h1>
+                    <p:panel id="panelAlumnados" header="Listado de Alumnos por Curso">
+                        <table width="100%">
+                            <thead><tr>
+                                    <td>
+                                        <table width="100%">
+                                            <tbody>
+                                                <td style="width:100px">
+                                                    <h:outputLabel value="Curso" />
+                                                </td>
+                                                <td>
+                                                    <p:selectOneMenu id="sCurso" style="width: 136px" value="#{matriculaController.idCurso}" >
+                                                        <f:selectItem itemLabel="Seleccione curso" itemValue="#{-1}"/>
+                                                        <f:selectItems var="objCurso" value="#{matriculaController.lstacurso}" itemValue="#{objCurso.NIdCurso}" itemLabel="#{objCurso.SDescripcion}" />                                                        
+                                                        <p:ajax event="change" update=":frmRegistroAlumnos:panelAlumnados"/>
+                                                    </p:selectOneMenu>                            
+
+                                                </td>
+                                            </tbody>
+                                        </table>
+
+                                        <tbody>
+                                            <tr><td>
+                                                    <p:toolbar style="padding: 4px;" >  
+                                                        <p:toolbarGroup align="left">  
+                                                            <p:commandButton  id="botonagregar" value="Agregar" icon="ui-icon-document"  
+                                                                              disabled="#{matriculaController.idCurso==-1}"
+                                                                              oncomplete="manteAlumno.show()" 
+                                                                              update=":frmAgregarAlumno">
+
+                                                            </p:commandButton>   
+                                                            <p:commandButton value="Buscar" icon="ui-icon-search" action="#{matriculaController.filtrar}" 
+                                                                             update="frmRegistroAlumnos:panelAlumnados"/> 
+                                                        </p:toolbarGroup>  
+                                                    </p:toolbar>
+                                                </td></tr>
+                                            <tr><td>
+                                                    <p:dataTable id="grdClientes" value="#{matriculaController.lstalumno}" var="item" rowKey="#{item.NIdAlumno}"  
+                                                                 selection="#{matriculaController.selectedAlumno}"
+                                                                 selectionMode="single" scrollable="true" scrollHeight="350" 
+                                                                 rowIndexVar="index"
+                                                                 emptyMessage="No se encontraron registros que coincidan con los criterios ingresados">
+                                                        <p:column width="40" style="text-align: center;" >
+                                                            <f:facet name="header">
+                                                                <h:outputText value="N°"/>
+                                                            </f:facet>
+                                                            <h:outputText value="#{index+1}"/>
+                                                        </p:column>
+                                                        <p:column width="100" style="text-align: center;">
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Código" />
+                                                            </f:facet>
+                                                            <h:outputText value="#{item.NCodigo}"/>
+                                                        </p:column>                                            
+                                                        <p:column width="350">
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Nombre Completo" />
+                                                            </f:facet>
+                                                            <h:outputText value="#{item.NIdPersona.SNombresCompletos}"/>
+                                                        </p:column>
+                                                        <p:column width="180" style="text-align: center;">
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Plan de Estudio" />
+                                                            </f:facet>
+                                                            <h:outputText value="#{item.SPlanEstudio}" />
+                                                        </p:column>                                        
+                                                        <p:column width="100" style="text-align: center;">
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Opciones" />
+                                                            </f:facet>                                            
+                                                            <p:commandButton oncomplete="msjAlumno.show()" icon="ui-icon-trash" style="width: 20px; height: 20px;" update=":frmRegistroAlumnos" >
+                                                                <f:setPropertyActionListener value="#{item}" target="#{matriculaController.selectedAlumno}" />
+                                                            </p:commandButton>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </td></tr>                                
+                                        </tbody>
+                                    </td>
+                                </tr>
+                            </thead>                            
+                        </table>                       
+                    </p:panel>                                           
+                </h:form>       
+                <p:dialog id="dlgAgregaAlumno" modal="true" header="Agregar Alumno" widgetVar="manteAlumno" resizable="false"
+                          width="360" height="320">
+                    <ui:include src="frmAgregarAlumno.xhtml" />
+                    <p:ajax event="close" listener="#{matriculaController.cancelar()}" update=":frmRegistroAlumnos:panelAlumnados, :frmAgregarAlumno"/>
+                </p:dialog>   
+
+                <p:dialog modal="true" header="Eliminar Alumno" widgetVar="msjAlumno" resizable="false"
+                          width="380" height="100" showEffect="clip" hideEffect="fold" id="dlgMensaje">
+                    <p:panel>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><span class="ui-icon ui-icon-alert ui-confirm-dialog-severity" style="margin-bottom: 10px;"></span>
+                                        <h:outputLabel style="font-size: 10pt;" value="¿Está seguro de eliminar el registro seleccionado?"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>
+                                        <p:commandButton value="Sí" action="#{matriculaController.eliminar}" onclick="msjEmpresa.hide()"/>
+                                        <p:commandButton value="No" action="#{matriculaController.cancelar}" onclick="msjEmpresa.hide()"/>   
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>      
+                    </p:panel>
+                    <p:ajax event="close" update="frmRegistroAlumnos"/> 
+                </p:dialog>                 
+                <p:growl id="growl" showDetail="true" life="2000" />
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

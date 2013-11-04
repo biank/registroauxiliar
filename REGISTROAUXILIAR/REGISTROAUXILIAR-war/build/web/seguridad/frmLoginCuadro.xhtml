@@ -1,0 +1,101 @@
+<ui:composition 
+        xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:form id="frmLoginCuadro" >
+        <table style="border-spacing: 5px;" >
+            <tbody>
+                <tr>
+                    <td><h:outputLabel for="usuario" value="Usuario" /></td>
+                    <td><h:outputLabel for="usuario" value=":" />  </td>        
+                    <td><p:inputText  id="usuario" value="#{loginController.usuario}" style="width: 150px;" required="true" autocomplete="off" requiredMessage="Ingrese el usuario"  /> </td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel for="contrasena" value="Contraseña" />  </td>
+                    <td><h:outputLabel for="contrasena" value=":" /></td>
+                    <td><p:password id="contrasena" value="#{loginController.contrasena}" style="width: 150px;" required="true" redisplay="true" requiredMessage="Ingrese el password" /></td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align: center;"></td>
+                </tr>                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: right;">
+                                        <p:commandButton process="@this, usuario, contrasena" id="loginButton" value="Ingresar" 
+                                                         action="#{loginController.login()}" 
+                                                         update=":validaLogin, usuario, contrasena" 
+                                                         style="margin:0; width: 90px;font-family: arial,helvetica,sans-serif;font-size: 11px;"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>                        
+                </tr>
+            </tfoot>
+        </table>            
+    </h:form>
+    <p:dialog id="validaLogin" widgetVar="dlgValidaLogin" modal="true" resizable="false" >
+        <p:panel>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><h:outputLabel value="Usuario y contraseña inválidas"/><br/></td>
+                    </tr>                    
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>   
+                <tfoot>
+                    <tr >
+                        <td align="center">
+                            <p:commandButton   value="Cerrar" oncomplete="dlgValidaLogin.hide()" />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>      
+        </p:panel> 
+    </p:dialog>
+     <p:dialog id="validaLoginContrasena" widgetVar="dlgValidaLoginContrasena" modal="true" resizable="false" >
+        <p:panel>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><h:outputLabel value="Contraseña inválida"/><br/></td>
+                    </tr>                    
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>   
+                <tfoot>
+                    <tr >
+                        <td align="center">
+                            <p:commandButton   value="Cerrar" oncomplete="dlgValidaLoginContrasena.hide()" />
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>      
+        </p:panel> 
+    </p:dialog>
+    <p:dialog id="validabloquear" widgetVar="dlgbloquear" modal="false" resizable="false" >
+        <p:panel>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><h:outputLabel value="HA TENIDO MAS DE 3 INTENTOS DE LOGUEO ERRONEOS"/><br/></td>
+                    </tr>                    
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>                   
+            </table>      
+        </p:panel> 
+    </p:dialog>
+</ui:composition>
